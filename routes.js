@@ -45,7 +45,28 @@ function setupRoutes(app) {
     const id = parseInt(req.params.vehicleId, 10);
     const vehicle = seedData.vehicles.find(v => v.id === id);
     if (!vehicle) return res.status(404).json({ error: 'Not found' });
-    res.json(vehicle);
+
+    const vehiclePings = seedData.pings
+      .filter(p => p.vehicle_id === id)
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    const lastPing = vehiclePings[0] || null;
+
+    const response = {
+      vehicle_id: String(vehicle.id),
+      reg_number: vehicle.register_number,
+      device_id: vehicle.device_id,
+      station_id: String(vehicle.station_id),
+      last_ping: lastPing ? {
+        ping_id: String(lastPing.id),
+        vehicle_id: String(lastPing.vehicle_id),
+        timestamp: lastPing.timestamp,
+        lat: lastPing.latitude,
+        lng: lastPing.longitude,
+        speed: null
+      } : null
+    };
+
+    res.json(response);
   });
 
   app.get('/vehicles/:vehicleId/pings', (req, res) => {
