@@ -1,70 +1,34 @@
 # WebApiDev_Test - Project Documentation
 
 ## Project Overview
-Minimal Express.js API serving Sri Lankan geographic and vehicle tracking data from `seed.json`. **Now evolving into a Taxi/Ride-Hailing Platform** (see `taxiProject.md` for full plan).
+Minimal Express.js API serving Sri Lankan geographic and vehicle tracking data from `seed.json`.
 
-## Current Tech Stack (MVP)
+## Tech Stack
 - Node.js + Express.js
 - In-memory data from `seed.json` (loaded at startup)
-- No database, no authentication
-- Single file routes (`routes.js`)
+- Single-file routes configuration (`routes.js`)
+- API Key authentication for ping creation (simulated via header validation)
 
-## Target Tech Stack (Taxi Platform - Planned)
-- Node.js + Express.js + WebSocket (ws)
-- PostgreSQL + PostGIS (geo queries)
-- API Key authentication
-- PayHere payment integration
-- Modular route structure
-- Redis for caching/rate limiting (future)
-
-## File Structure (Current)
+## File Structure
 ```
 WebApiDev_Test/
-├── index.js          # Entry point
-├── routes.js         # All route handlers
-├── seed.json         # Data source (provinces, districts, stations, vehicles, pings)
-├── package.json      # Dependencies & scripts
-├── package-lock.json
-├── PROJECT.md        # This file (current project)
-└── taxiProject.md    # Taxi platform comprehensive plan
+├── index.js          # Entry point and server initialization
+├── routes.js         # REST route handlers and business logic
+├── seed.json         # Data source containing provinces, districts, stations, vehicles, and pings
+├── test.json         # Sample payload for testing ping creation
+├── package.json      # Project dependencies and npm scripts
+├── package-lock.json # Dependency lockfile
+├── PROJECT.md        # Project documentation and API specification
+└── README.md         # Student and course info
 ```
 
-## File Structure (Planned - Taxi Platform)
+## Commands
+To install dependencies and run the server:
+```bash
+npm install    # Install dependencies
+npm start      # Start server on port 3000 (or $PORT)
 ```
-WebApiDev_Test/
-├── index.js
-├── config/
-│   ├── database.js
-│   ├── payhere.js
-│   └── websocket.js
-├── routes/
-│   ├── index.js
-│   ├── auth.js
-│   ├── drivers.js
-│   ├── passengers.js
-│   ├── rides.js
-│   ├── payments.js
-│   ├── vehicles.js
-│   ├── geography.js
-│   ├── vehicle-types.js
-│   ├── fares.js
-│   ├── ratings.js
-│   └── admin.js
-├── services/
-│   ├── dispatch.js
-│   ├── fare.js
-│   ├── location.js
-│   ├── payment.js
-│   ├── websocket.js
-│   └── notification.js
-├── models/
-├── middleware/
-├── migrations/
-├── seeds/
-├── utils/
-├── tests/
-└── package.json
-```
+
 
 ## Routes Implemented (Current MVP)
 
@@ -181,56 +145,6 @@ WebApiDev_Test/
 { "error": "Not found" }
 ```
 
-## Planned Taxi Platform Routes (from taxiProject.md)
-
-### Authentication
-- `POST /auth/register/passenger` - Register passenger
-- `POST /auth/register/driver` - Register driver
-- `POST /auth/login` - Validate API key
-- `POST /auth/refresh` - Rotate API key
-
-### Drivers
-- `GET /drivers` - List drivers (admin)
-- `GET /drivers/:driverId` - Driver profile
-- `PATCH /drivers/:driverId/status` - Update availability
-- `POST /drivers/:driverId/location` - Update location
-- `GET /drivers/nearby` - Find nearby available drivers
-
-### Passengers
-- `GET /passengers/:passengerId` - Profile
-- `GET /passengers/:passengerId/rides` - Ride history
-- `GET /passengers/:passengerId/wallet` - Wallet balance
-
-### Rides (Core)
-- `POST /rides` - Request ride
-- `GET /rides/:rideId` - Ride details
-- `POST /rides/:rideId/accept` - Driver accepts
-- `POST /rides/:rideId/start` - Start trip
-- `POST /rides/:rideId/complete` - Complete trip
-- `POST /rides/:rideId/cancel` - Cancel ride
-- `GET /rides/:rideId/track` - Real-time tracking (WebSocket)
-
-### Payments
-- `POST /payments` - PayHere webhook
-- `POST /payments/:paymentId/refund` - Refund
-
-### Admin
-- `GET /admin/stats` - Dashboard metrics
-- `GET /admin/rides` - All rides
-- `GET /admin/heatmap` - Demand heatmap
-
-### Fare Estimation
-- `POST /fares/estimate` - Estimate fare
-
-### Vehicle Types
-- `GET /vehicle-types` - List types with fare rules
-
-## Commands
-```bash
-npm install    # Install dependencies
-npm start      # Start server on port 3000 (or $PORT)
-```
-
 ## Git History (dev branch)
 | Commit | Message | Date |
 |--------|---------|------|
@@ -247,28 +161,3 @@ npm start      # Start server on port 3000 (or $PORT)
 - Pings sorted by timestamp descending to find "most recent"
 - 404 returned for non-existent resources or vehicles with no pings
 
-## Taxi Platform Technical Decisions (Confirmed)
-
-| Area | Decision |
-|------|----------|
-| **Real-time** | WebSocket |
-| **Payments** | PayHere (Sri Lanka) |
-| **Authentication** | API Keys |
-| **Database** | PostgreSQL + PostGIS |
-| **Business Model** | Ride-hailing platform |
-| **Dispatch Logic** | Nearest Available |
-
-## Next Steps
-1. Set up PostgreSQL + PostGIS
-2. Create database migrations from taxiProject.md schema
-3. Implement API key authentication middleware
-4. Build modular route structure
-5. Implement Phase 1: Foundation (users, drivers, passengers CRUD)
-6. Implement Phase 2: Core ride lifecycle with dispatch
-7. Integrate PayHere payments
-8. Add WebSocket for real-time tracking
-
-## Reference
-- **Full taxi platform plan**: `taxiProject.md`
-- **Current API docs**: This file (PROJECT.md)
-- **Seed data**: `seed.json` (260K+ pings, 220 vehicles, 32 stations, 25 districts, 9 provinces)
