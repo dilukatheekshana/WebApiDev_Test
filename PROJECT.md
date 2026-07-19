@@ -8,6 +8,7 @@ Minimal Express.js API serving Sri Lankan geographic and vehicle tracking data f
 - In-memory data from `seed.json` (loaded at startup)
 - Single-file routes configuration (`routes.js`)
 - API Key authentication for ping creation (simulated via header validation)
+- Basic Authentication for read (GET) routes (username: `police`, password: `nibm2024`)
 
 ## File Structure
 ```
@@ -28,6 +29,22 @@ To install dependencies and run the server:
 npm install    # Install dependencies
 npm start      # Start server on port 3000 (or $PORT)
 ```
+
+## Authentication
+
+### 1. Read (GET) Endpoints - Basic Authentication
+All `GET` endpoints require HTTP Basic Authentication:
+* **Username**: `police`
+* **Password**: `nibm2024`
+* **Required Header**: `Authorization: Basic cG9saWNlOm5pYm0yMDI0` (Base64 of `police:nibm2024`)
+
+**Error Responses:**
+* `401 Unauthorized` with `WWW-Authenticate: Basic realm="Police API"` if the header is missing or misformatted.
+* `403 Forbidden` if username or password is incorrect.
+
+### 2. Ping Creation (POST) - API Key Authentication
+* **Endpoint**: `POST /vehicles/:vehicleId/pings`
+* **Required Header**: `X-API-Key` matching `deviceKeys[vehicleId]` (e.g. `key_v01` for vehicle 1). No Basic Authentication required.
 
 
 ## Routes Implemented (Current MVP)
@@ -148,6 +165,7 @@ npm start      # Start server on port 3000 (or $PORT)
 ## Git History (dev branch)
 | Commit | Message | Date |
 |--------|---------|------|
+| `3519f8e` | Basic Auth on read routes (WSO2 §12.1) | 2026-07-19 |
 | `7b59092` | S7: Add POST /vehicles/:vehicleId/pings with API key auth and GET /vehicles/:vehicleId/pings/:pingId | 2026-07-05 |
 | `3cca95e` | docs: Add PROJECT.md and taxiProject.md | 2026-07-05 |
 | `578aa0b` | S4: Add /last-position | 2026-07-05 |
