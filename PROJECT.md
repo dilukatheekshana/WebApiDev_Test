@@ -17,6 +17,7 @@ WebApiDev_Test/
 ├── routes.js         # REST route handlers and business logic
 ├── db.js             # MongoDB client manager
 ├── seed_db.js        # Script to clear and populate MongoDB collections
+├── .env.example      # Example environment variables file
 ├── .env              # Environment secrets config file (ignored by Git)
 ├── seed.json         # Reference telemetry data backup
 ├── test.json         # Sample payload for testing ping creation
@@ -168,7 +169,8 @@ All `GET` endpoints require HTTP Basic Authentication:
 ## Git History (dev branch)
 | Commit | Message | Date |
 |--------|---------|------|
-| `f9325f2` | fix: refactor database lifecycle for serverless / Vercel compatibility | 2026-07-19 |
+| `c44a2e1` | docs: Add .env.example template file | 2026-07-19 |
+| `2fa358b` | fix: refactor database lifecycle for serverless / Vercel compatibility | 2026-07-19 |
 | `f1b930e` | feat: Migrate from local JSON to MongoDB Atlas | 2026-07-19 |
 | `3519f8e` | Basic Auth on read routes (WSO2 §12.1) | 2026-07-19 |
 | `7b59092` | S7: Add POST /vehicles/:vehicleId/pings with API key auth and GET /vehicles/:vehicleId/pings/:pingId | 2026-07-05 |
