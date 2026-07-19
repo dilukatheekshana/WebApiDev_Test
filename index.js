@@ -1,11 +1,11 @@
 const express = require('express');
-const { setupRoutes } = require('./routes');
+const { setupRoutes, basicAuth } = require('./routes');
 
 const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/', basicAuth, (req, res) => {
   res.json({ status: 'ok', session: 'NB6007CEM S2' });
 });
 
