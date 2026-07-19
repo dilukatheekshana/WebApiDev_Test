@@ -168,7 +168,8 @@ All `GET` endpoints require HTTP Basic Authentication:
 ## Git History (dev branch)
 | Commit | Message | Date |
 |--------|---------|------|
-| `e87da2d`| feat: Migrate from local JSON to MongoDB Atlas | 2026-07-19 |
+| `f9325f2` | fix: refactor database lifecycle for serverless / Vercel compatibility | 2026-07-19 |
+| `f1b930e` | feat: Migrate from local JSON to MongoDB Atlas | 2026-07-19 |
 | `3519f8e` | Basic Auth on read routes (WSO2 §12.1) | 2026-07-19 |
 | `7b59092` | S7: Add POST /vehicles/:vehicleId/pings with API key auth and GET /vehicles/:vehicleId/pings/:pingId | 2026-07-05 |
 | `3cca95e` | docs: Add PROJECT.md and taxiProject.md | 2026-07-05 |

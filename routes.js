@@ -27,9 +27,10 @@ function basicAuth(req, res, next) {
   next();
 }
 
-function setupRoutes(app, db) {
+function setupRoutes(app) {
   app.get('/provinces', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const provinces = await db.collection('provinces').find({}, { projection: { _id: 0 } }).toArray();
       res.json(provinces);
     } catch (err) {
@@ -40,6 +41,7 @@ function setupRoutes(app, db) {
 
   app.get('/provinces/:provinceId', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const id = parseInt(req.params.provinceId, 10);
       const province = await db.collection('provinces').findOne({ id }, { projection: { _id: 0 } });
       if (!province) return res.status(404).json({ error: 'Not found' });
@@ -52,6 +54,7 @@ function setupRoutes(app, db) {
 
   app.get('/districts', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const districts = await db.collection('districts').find({}, { projection: { _id: 0 } }).toArray();
       res.json(districts);
     } catch (err) {
@@ -62,6 +65,7 @@ function setupRoutes(app, db) {
 
   app.get('/districts/:districtId', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const id = parseInt(req.params.districtId, 10);
       const district = await db.collection('districts').findOne({ id }, { projection: { _id: 0 } });
       if (!district) return res.status(404).json({ error: 'Not found' });
@@ -74,6 +78,7 @@ function setupRoutes(app, db) {
 
   app.get('/stations', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const stations = await db.collection('stations').find({}, { projection: { _id: 0 } }).toArray();
       res.json(stations);
     } catch (err) {
@@ -84,6 +89,7 @@ function setupRoutes(app, db) {
 
   app.get('/stations/:stationId', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const id = parseInt(req.params.stationId, 10);
       const station = await db.collection('stations').findOne({ id }, { projection: { _id: 0 } });
       if (!station) return res.status(404).json({ error: 'Not found' });
@@ -96,6 +102,7 @@ function setupRoutes(app, db) {
 
   app.get('/vehicles', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const vehicles = await db.collection('vehicles').find({}, { projection: { _id: 0 } }).toArray();
       res.json(vehicles);
     } catch (err) {
@@ -106,6 +113,7 @@ function setupRoutes(app, db) {
 
   app.get('/vehicles/:vehicleId', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const id = parseInt(req.params.vehicleId, 10);
       const vehicle = await db.collection('vehicles').findOne({ id }, { projection: { _id: 0 } });
       if (!vehicle) return res.status(404).json({ error: 'Not found' });
@@ -137,6 +145,7 @@ function setupRoutes(app, db) {
 
   app.get('/vehicles/:vehicleId/pings', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const vehicleId = parseInt(req.params.vehicleId, 10);
       const pings = await db.collection('pings')
         .find({ vehicle_id: vehicleId }, { projection: { _id: 0 } }).toArray();
@@ -149,6 +158,7 @@ function setupRoutes(app, db) {
 
   app.get('/vehicles/:vehicleId/last-position', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const vehicleId = parseInt(req.params.vehicleId, 10);
       const lastPing = await db.collection('pings')
         .findOne({ vehicle_id: vehicleId }, { sort: { timestamp: -1 }, projection: { _id: 0 } });
@@ -169,6 +179,7 @@ function setupRoutes(app, db) {
 
   app.post('/vehicles/:vehicleId/pings', async (req, res) => {
     try {
+      const db = req.db;
       const vehicleId = req.params.vehicleId;
       const vehicle = await db.collection('vehicles').findOne({ id: parseInt(vehicleId, 10) });
       if (!vehicle) return res.status(404).json({ error: 'Not found' });
@@ -212,6 +223,7 @@ function setupRoutes(app, db) {
 
   app.get('/vehicles/:vehicleId/pings/:pingId', basicAuth, async (req, res) => {
     try {
+      const db = req.db;
       const vehicleId = parseInt(req.params.vehicleId, 10);
       const pingId = parseInt(req.params.pingId, 10);
       const ping = await db.collection('pings')

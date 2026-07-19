@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { connectDB, client } = require('./db');
+const { connectDB, closeDB } = require('./db');
 
 async function seed() {
   console.log('Starting database seeding...');
@@ -40,8 +40,7 @@ async function seed() {
   } catch (error) {
     console.error('Error during seeding:', error);
   } finally {
-    await client.close();
-    console.log('MongoDB connection closed.');
+    await closeDB();
   }
 }
 
