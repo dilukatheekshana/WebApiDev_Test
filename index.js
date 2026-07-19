@@ -1,4 +1,5 @@
 const express = require('express');
+const { connectDB } = require('./db');
 const { setupRoutes, basicAuth } = require('./routes');
 
 const app = express();
@@ -9,9 +10,19 @@ app.get('/', basicAuth, (req, res) => {
   res.json({ status: 'ok', session: 'NB6007CEM S2' });
 });
 
-setupRoutes(app);
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+async function startServer() {
+  try {
+    const db = await connectDB();
+    setupRoutes(app, db);
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();

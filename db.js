@@ -1,0 +1,28 @@
+const { MongoClient } = require('mongodb');
+require('dotenv').config();
+
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  console.error('Error: MONGODB_URI is not defined in the environment.');
+  process.exit(1);
+}
+
+const client = new MongoClient(uri);
+let db = null;
+
+async function connectDB() {
+  if (db) return db;
+  await client.connect();
+  console.log('Connected to MongoDB successfully');
+  db = client.db();
+  return db;
+}
+
+function getDB() {
+  if (!db) {
+    throw new Error('Database not initialized. Call connectDB first.');
+  }
+  return db;
+}
+
+module.exports = { connectDB, getDB, client };

@@ -5,7 +5,7 @@ Minimal Express.js API serving Sri Lankan geographic and vehicle tracking data f
 
 ## Tech Stack
 - Node.js + Express.js
-- In-memory data from `seed.json` (loaded at startup)
+- Database storage via MongoDB Atlas (queried dynamically)
 - Single-file routes configuration (`routes.js`)
 - API Key authentication for ping creation (simulated via header validation)
 - Basic Authentication for read (GET) routes (username: `police`, password: `nibm2024`)
@@ -15,7 +15,10 @@ Minimal Express.js API serving Sri Lankan geographic and vehicle tracking data f
 WebApiDev_Test/
 ├── index.js          # Entry point and server initialization
 ├── routes.js         # REST route handlers and business logic
-├── seed.json         # Data source containing provinces, districts, stations, vehicles, and pings
+├── db.js             # MongoDB client manager
+├── seed_db.js        # Script to clear and populate MongoDB collections
+├── .env              # Environment secrets config file (ignored by Git)
+├── seed.json         # Reference telemetry data backup
 ├── test.json         # Sample payload for testing ping creation
 ├── package.json      # Project dependencies and npm scripts
 ├── package-lock.json # Dependency lockfile
@@ -165,6 +168,7 @@ All `GET` endpoints require HTTP Basic Authentication:
 ## Git History (dev branch)
 | Commit | Message | Date |
 |--------|---------|------|
+| `e87da2d`| feat: Migrate from local JSON to MongoDB Atlas | 2026-07-19 |
 | `3519f8e` | Basic Auth on read routes (WSO2 §12.1) | 2026-07-19 |
 | `7b59092` | S7: Add POST /vehicles/:vehicleId/pings with API key auth and GET /vehicles/:vehicleId/pings/:pingId | 2026-07-05 |
 | `3cca95e` | docs: Add PROJECT.md and taxiProject.md | 2026-07-05 |
